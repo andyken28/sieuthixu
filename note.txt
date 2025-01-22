@@ -1,0 +1,28 @@
+ls insert update delete search
+-p: proxy
+-c: context
+-v: viewport
+-u: user agent
+-g: geolocation
+-fa: fb_accounts
+-ya: youtube account
+-ta: titok account
+-tds: tds
+-ttc: ttc_accounts
+-h: help
+-fp: fb_proxy_couples
+-ttcf: ttc_fb_couples
+
+
+proxies proxy_id ip port username password
+user_agents user_agent_id user_agent
+viewports viewport_id width height
+geolocations geolocation_id longitude latitude
+contexts context_id user_agent_id viewport_id locale timezone_id geolocation_id
+
+ttc_accounts ttc_account_id username password access_token
+
+fb_accounts fb_account_id uid otp_2fa mail password_mail cookie
+
+fb_proxy_couples fb_proxy_id fb_account_id proxy_id 
+ttc_fb_couples ttc_fb_id ttc_account_id fb_account_id
