@@ -1,7 +1,78 @@
+import json
+import os
+import api_custom
+import threading
+import time
+import random
+import logging
+
 from database import (
     get_data,search_data, get_type, get_variable, get_null, delete_data, insert_data, update_data,
-    get_primary_keys, get_foreign_keys
+    get_primary_keys, get_foreign_keys,
+    create_tables
+    
 )
+
+def check_proxy(data):
+  api_custom.live_proxy(data)
+
+def input_action(file_path):
+    try:
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        print(f"data in {file_path}:")
+        # print(data)
+        delete_path = "sieuthixu.db"
+        if os.path.exists(delete_path):
+            os.remove(delete_path)
+            print(f"File '{delete_path}' đã được xóa.")
+            create_tables()
+        else:
+            print(f"File '{delete_path}' không tồn tại.")
+        for key in data:
+            for item in data[key]:
+                insert_data(key,item)
+                # print(item)
+
+    except ValueError:
+        print(f"==> data error {file_path}")
+
+def check_action(table_name,var):
+    variables=get_variable(table_name)
+    if len(var)==0:
+        print(f"\nplease choice id in {table_name}")
+        data = get_data(table_name)
+        for item in data:
+            print(item)
+        var=[input(f"\ninput {variables[0]}: ")]
+    try:
+        var[0]=int(var[0])
+        print(f"\nget {variables[0]}: {var[0]}")
+        data = get_data(table_name,var[0])
+        
+    except ValueError:
+        print("id not int!")
+        return
+
+    match table_name:
+        case "proxies":
+            if data:
+                proxy_context = search_data("proxy_context_couples",1,data[0][variables[0]])[0]
+                proxy_context = get_data("proxy_context_couples",proxy_context["proxy_context_id"])[0]
+                print(proxy_context)
+                thread1 = threading.Thread(target=check_proxy, args=(proxy_context,))
+                thread1.start()
+                # thread1.join()
+        case "fb_accounts":
+            if data:
+                fb_proxy = search_data("fb_proxy_couples",1,data[0][variables[0]])[0]
+                print(fb_proxy)
+                proxy_context = search_data("proxy_context_couples",1,fb_proxy["proxy_id"])[0]
+                # proxy_context = get_data("proxy_context_couples",proxy_context["proxy_context_id"])[0]
+                print(proxy_context)
+                # thread1 = threading.Thread(target=check_proxy, args=(proxy_context,))
+                # thread1.start()
+                # thread1.join()
 
 def insert_action(table_name,var):
     if len(var)==0:
@@ -353,3 +424,4 @@ def search_action(table_name,var):
         return
     
 ###############
+

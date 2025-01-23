@@ -22,7 +22,14 @@ contexts context_id user_agent_id viewport_id locale timezone_id geolocation_id
 
 ttc_accounts ttc_account_id username password access_token
 
-fb_accounts fb_account_id uid otp_2fa mail password_mail cookie
+fb_accounts fb_account_id uid password otp_2fa mail password_mail cookie
 
 fb_proxy_couples fb_proxy_id fb_account_id proxy_id 
 ttc_fb_couples ttc_fb_id ttc_account_id fb_account_id
+
+
+
+
+// {"user_agent_id":1, "viewport_id":1, "locale":1, "timezone_id":1, "geolocation_id":1}
+// {"fb_proxy_id":1, "fb_account_id":1, "proxy_id":1}
+// {"ttc_account_id":1, "fb_account_id":1}        

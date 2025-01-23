@@ -68,6 +68,7 @@ def create_tables():
     CREATE TABLE IF NOT EXISTS fb_accounts (
         fb_account_id INTEGER PRIMARY KEY AUTOINCREMENT,
         uid TEXT NOT NULL,
+        password TEXT NOT NULL,
         otp_2fa TEXT NULL,
         mail TEXT NULL,
         password_mail TEXT NULL,
@@ -93,6 +94,14 @@ def create_tables():
     )
     ''')
 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS proxy_context_couples (
+        proxy_context_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        proxy_id INTEGER NOT NULL,
+        context_id INTEGER NOT NULL
+    )
+    ''')
+
 ########################
     conn.commit()
     conn.close()
@@ -105,10 +114,11 @@ tables={
     "contexts":["context_id", "user_agent_id", "viewport_id", "locale", "timezone_id", "geolocation_id"],
 
     "ttc_accounts":["ttc_account_id", "username", "password", "access_token"],
-    "fb_accounts":["fb_account_id", "uid", "otp_2fa", "mail", "password_mail", "cookie"],
+    "fb_accounts":["fb_account_id", "uid", "password", "otp_2fa", "mail", "password_mail", "cookie"],
 
     "fb_proxy_couples":["fb_proxy_id", "fb_account_id", "proxy_id"],
-    "ttc_fb_couples":["ttc_fb_id", "ttc_account_id", "fb_account_id"]
+    "ttc_fb_couples":["ttc_fb_id", "ttc_account_id", "fb_account_id"],
+    "proxy_context_couples":["proxy_context_id", "proxy_id", "context_id"]
 }
 # 0:int, 1:string, 2:float, 3: date
 types={
@@ -122,7 +132,8 @@ types={
     "fb_accounts":[0, 1, 1, 1, 1, 1],
 
     "fb_proxy_couples":[0, 0, 0],
-    "ttc_fb_couples":[0, 0, 0]
+    "ttc_fb_couples":[0, 0, 0],
+    "proxy_context_couples":[0, 0, 0]
 }
 # 0:null 1:not null
 not_nulls={
@@ -136,7 +147,8 @@ not_nulls={
     "fb_accounts":[1, 1, 0, 0, 0, 0],
 
     "fb_proxy_couples":[1, 1, 1],
-    "ttc_fb_couples":[1, 1, 1]
+    "ttc_fb_couples":[1, 1, 1],
+    "proxy_context_couples":[1, 1, 1]
 }
 primary_keys={
     "proxy_id":"proxies",
@@ -149,7 +161,8 @@ primary_keys={
     "fb_account_id":"fb_accounts",
 
     "fb_proxy_id":"fb_proxy_couples",
-    "ttc_fb_id":"ttc_fb_couples"
+    "ttc_fb_id":"ttc_fb_couples",
+    "proxy_context_id":"proxy_context_couples"
 }
 foreign_keys={
     "user_agent_id":"user_agent",
@@ -158,7 +171,8 @@ foreign_keys={
 
     "fb_account_id":"fb_account",
     "proxy_id":"proxy",
-    "ttc_account_id":"ttc_account"
+    "ttc_account_id":"ttc_account",
+    "context_id":"context"
 }
 def get_foreign_keys():
     return foreign_keys

@@ -1,5 +1,5 @@
 from database import create_tables
-from function import ls, insert, delete, search, update, get
+from function import ls, insert, delete, search, update, get, input_data, tuongtaccheo, check
 
 create_tables()
 
@@ -10,6 +10,24 @@ if __name__ == "__main__":
             continue
         split_commands = command.split()
         match split_commands[0]:
+            case 'ttc':
+                if len(split_commands)==1:
+                    tuongtaccheo()
+                else:
+                    split_commands.pop(0)
+                    tuongtaccheo(split_commands)
+            case 'check':
+                if len(split_commands)==1:
+                    check()
+                else:
+                    split_commands.pop(0)
+                    check(split_commands)
+            case 'input':
+                if len(split_commands)==1:
+                    input_data()
+                else:
+                    split_commands.pop(0)
+                    input_data(split_commands)
             case 'ls':
                 if len(split_commands)==1:
                     ls()

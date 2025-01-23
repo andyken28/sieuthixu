@@ -1,7 +1,44 @@
 from database import show_table_data
 from action import (
-     get_action,search_action, delete_action, insert_action, update_action
+    get_action,search_action, delete_action, insert_action, update_action, input_action,
+    check_action
 )
+
+def input_data(var=['-h']):
+    match var[0]:
+        case '-a':
+            input_action("data.js")
+        
+        case '-h':
+            print("input help")
+        case _:
+            print("command not found!")
+
+def check(var=['-h']):
+    match var[0]:
+        case '-p':
+            var.pop(0)
+            check_action("proxies",var)
+        case '-fa':
+            var.pop(0)
+            check_action("fb_accounts",var)
+
+        case '-h':
+            print("check help")
+        case _:
+            print("command not found!")\
+
+def tuongtaccheo(var=['-h']):
+    match var[0]:
+        case '-p':
+            show_table_data("proxies")
+        case '-fa':
+            show_table_data("proxies")
+
+        case '-h':
+            print("tuongtaccheo help")
+        case _:
+            print("command not found!")
 
 def ls(var=['-h']):
     match var[0]:
@@ -24,6 +61,8 @@ def ls(var=['-h']):
             show_table_data("fb_proxy_couples")
         case '-ttcf':
             show_table_data("ttc_fb_couples")
+        case '-pc':
+            show_table_data("proxy_context_couples")
 
         case '-h':
             print("ls help")
@@ -62,6 +101,9 @@ def insert(var=['-h']):
         case '-ttcf':
             var.pop(0)
             insert_action("ttc_fb_couples",var)
+        case '-pc':
+            var.pop(0)
+            insert_action("proxy_context_couples",var)
 
 
         case _:
@@ -99,6 +141,9 @@ def delete(var=['-h']):
         case '-ttcf':
             var.pop(0)
             delete_action("ttc_fb_couples",var)
+        case '-pc':
+            var.pop(0)
+            delete_action("proxy_context_couples",var)
         
 
         case _:
@@ -136,6 +181,9 @@ def search(var=['-h']):
         case '-ttcf':
             var.pop(0)
             search_action("ttc_fb_couples",var)
+        case '-pc':
+            var.pop(0)
+            search_action("proxy_context_couples",var)
         
         case _:
             print("command not found!")
@@ -172,6 +220,9 @@ def update(var=['-h']):
         case '-ttcf':
             var.pop(0)
             update_action("ttc_fb_couples",var)
+        case '-pc':
+            var.pop(0)
+            update_action("proxy_context_couples",var)
         
         case _:
             print("command not found!")
@@ -208,6 +259,9 @@ def get(var=['-h']):
         case '-ttcf':
             var.pop(0)
             get_action("ttc_fb_couples",var)
+        case '-pc':
+            var.pop(0)
+            get_action("proxy_context_couples",var)
         
         case _:
             print("command not found!")
